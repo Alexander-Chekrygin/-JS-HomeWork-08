@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <!-- Создайте страницу которая запрашивает имя пользователя, если пользователь вводит "Admin" либо "admin" он попадает на страницу,
+        которая оповещает его о том что " Пользоваетль Admin(не статическая строка, а данные что ввел пользователь) вошел в систему"
+        а рядом разместите кнопку "Выход" которая вернет пользователя к модальному окну ввода логина. Реализуйте код как для куки так и для localstorage. -->
+    
+    <div class="login">
+        <h1>Авторизируйтесь</h1>
+        <input type="text" name="loginIn" id="loginIn" value="Andrey">
+        <input type="button" name="loginBut" id="loginBut" value="Войти">
+    </div>
+    <h1 class="greets hide"></h1>
+    <input type="button" class="exit hide" value="Выйти">
+
+    <style>
+        .login {
+            padding: 15px;
+            text-align: center;
+            display: inline-block;
+            position: relative;
+            margin-left: 40%;
+            top: 150px;
+            border: 1px solid rgb(148, 148, 148);
+        }
+    
+        input {
+            display: block;
+            margin: 0 auto;
+            margin-bottom: 15px;
+        }
+    
+        .greets {
+            text-align: center;
+        }
+    
+        .exit {
+            text-align: right;
+        }
+    
+        .hide {
+            display: none;
+        }
+    </style>
+
+    <script>
+         let userDat = new Array;
+            let logBut = document.querySelector("#loginBut");
+            logBut.addEventListener("click", logVal);
+            function logVal() {
+                logTex = document.querySelector("#loginIn").value;
+                userDat.push(logTex)
+                document.cookie = logTex;
+                localStorage.setItem("login", userDat[userDat.length - 1]);
+                hide()
+            }
+            let logMod = document.getElementsByClassName("login");
+            let exBut = document.getElementsByClassName("exit");
+            let greetMaker = document.getElementsByClassName("greets");
+            function hide() {
+                logMod[0].classList.add("hide")
+                greetMaker[0].classList.remove("hide");
+                greetMaker[0].insertAdjacentText("beforeend", "Добро пожаловать, " + userDat[userDat.length - 1]);
+                exBut[0].classList.remove("hide");
+            }
+            exBut[0].addEventListener("click", logOut);
+            function logOut() {
+                logMod[0].classList.remove("hide");
+                greetMaker[0].classList.add("hide");
+                exBut[0].classList.add("hide");
+                localStorage.clear();
+                greetMaker[0].innerHTML = " ";
+            }
+    </script>
+</body>
+</html>
